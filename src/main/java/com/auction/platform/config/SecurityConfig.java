@@ -47,12 +47,10 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
 
-            // GOOGLE LOGIN
             .oauth2Login(oauth -> oauth
                 .successHandler(oAuth2LoginSuccessHandler)
             )
 
-            // JWT FILTER
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -67,7 +65,13 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+
+        
+        config.setAllowedOriginPatterns(List.of(
+            "http://localhost:*",
+            "https://*.vercel.app"
+        ));
+
         config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
