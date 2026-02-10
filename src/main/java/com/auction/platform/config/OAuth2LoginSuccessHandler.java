@@ -59,7 +59,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         // Redirect to frontend with token
         String redirectUrl =
-                "http://localhost:5173/oauth-success?token=" + token +
+                "https://auction-frontend-red.vercel.app/oauth-success?token=" + token +
                 "&role=" + user.getRole().name() +
                 "&userId=" + user.getId();
 
