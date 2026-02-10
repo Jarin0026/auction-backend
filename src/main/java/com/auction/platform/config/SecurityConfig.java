@@ -32,21 +32,24 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/users/**").permitAll()
-                .requestMatchers("/uploads/**").permitAll()
-                .requestMatchers("/ws/**").permitAll()
-                .requestMatchers("/oauth2/**").permitAll()
 
-                .requestMatchers("/api/bids/place").hasRole("BUYER")
-                .requestMatchers("/api/bids/**").hasAnyRole("BUYER","SELLER")
-                .requestMatchers("/api/wallet/**").hasAnyRole("BUYER","SELLER","ADMIN")
+    // 
+    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                .requestMatchers("/api/auctions/**").authenticated()
-                .requestMatchers("/api/transactions/**").authenticated()
+    .requestMatchers("/api/users/**").permitAll()
+    .requestMatchers("/uploads/**").permitAll()
+    .requestMatchers("/ws/**").permitAll()
+    .requestMatchers("/oauth2/**").permitAll()
 
-                .anyRequest().authenticated()
-            )
+    .requestMatchers("/api/bids/place").hasRole("BUYER")
+    .requestMatchers("/api/bids/**").hasAnyRole("BUYER","SELLER")
+    .requestMatchers("/api/wallet/**").hasAnyRole("BUYER","SELLER","ADMIN")
 
+    .requestMatchers("/api/auctions/**").authenticated()
+    .requestMatchers("/api/transactions/**").authenticated()
+
+    .anyRequest().authenticated()
+)
             .oauth2Login(oauth -> oauth
                 .successHandler(oAuth2LoginSuccessHandler)
             )
