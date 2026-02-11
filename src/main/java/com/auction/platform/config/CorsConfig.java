@@ -1,22 +1,32 @@
-@Bean
-public CorsConfigurationSource corsConfigurationSource() {
+package com.auction.platform.config;
 
-    CorsConfiguration config = new CorsConfiguration();
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
-    config.setAllowedOriginPatterns(List.of(
-        "http://localhost:*",
-        "https://*.vercel.app"
-    ));
+import java.util.List;
 
-    config.setAllowedMethods(List.of(
-        "GET","POST","PUT","DELETE","OPTIONS"
-    ));
-    config.setAllowedHeaders(List.of("*"));
-    config.setAllowCredentials(true);
+@Configuration
+public class CorsConfig {
 
-    UrlBasedCorsConfigurationSource source =
-            new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", config);
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
 
-    return source;
+        config.setAllowedOrigins(List.of(
+            "http://localhost:5173",
+            "https://auction-frontend-red.onrender.com"
+        ));
+
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return new CorsFilter(source);
+    }
 }
