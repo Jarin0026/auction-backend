@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,30 +31,27 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-    /
-    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/api/users/**").permitAll()
+                .requestMatchers("/uploads/**").permitAll()
+                .requestMatchers("/ws/**").permitAll()
+                .requestMatchers("/oauth2/**").permitAll()
+                .requestMatchers("/login/**").permitAll()
 
-    .requestMatchers("/api/users/**").permitAll()
-    .requestMatchers("/uploads/**").permitAll()
-    .requestMatchers("/ws/**").permitAll()
-    .requestMatchers("/oauth2/**").permitAll()
+                .requestMatchers("/api/bids/place").hasRole("BUYER")
+                .requestMatchers("/api/bids/**").hasAnyRole("BUYER", "SELLER")
+                .requestMatchers("/api/wallet/**").hasAnyRole("BUYER", "SELLER", "ADMIN")
 
-    .requestMatchers("/api/bids/place").hasRole("BUYER")
-    .requestMatchers("/api/bids/**").hasAnyRole("BUYER","SELLER")
-    .requestMatchers("/api/wallet/**").hasAnyRole("BUYER","SELLER","ADMIN")
+                .requestMatchers("/api/auctions/**").authenticated()
+                .requestMatchers("/api/transactions/**").authenticated()
 
-    .requestMatchers("/api/auctions/**").authenticated()
-    .requestMatchers("/api/transactions/**").authenticated()
-
-    .anyRequest().authenticated()
-)
+                .anyRequest().authenticated()
+            )
             .oauth2Login(oauth -> oauth
                 .successHandler(oAuth2LoginSuccessHandler)
             )
-
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -69,10 +67,10 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        
         config.setAllowedOriginPatterns(List.of(
             "http://localhost:*",
-            "https://*.vercel.app"
+            "https://*.vercel.app",
+            "https://auction-frontend-red.onrender.com"
         ));
 
         config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
