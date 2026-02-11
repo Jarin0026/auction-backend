@@ -39,6 +39,8 @@ public class SecurityConfig {
                 .requestMatchers("/ws/**").permitAll()
                 .requestMatchers("/oauth2/**").permitAll()
                 .requestMatchers("/login/**").permitAll()
+                .requestMatchers("/error").permitAll()
+                   
 
                 .requestMatchers("/api/bids/place").hasRole("BUYER")
                 .requestMatchers("/api/bids/**").hasAnyRole("BUYER", "SELLER")
