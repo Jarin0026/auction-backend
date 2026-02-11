@@ -25,6 +25,8 @@ public class AuctionSchedularService {
     public void closeExpiredAuctions() {
 
         System.out.println("⏱ Scheduler running...");
+        System.out.println("Server Time: " + LocalDateTime.now());
+
 
         List<Auction> expiredAuctions =
                 auctionRepository.findByStatusAndEndTimeBefore(
