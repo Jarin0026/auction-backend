@@ -63,4 +63,4 @@ The backend handles authentication, bidding logic, auction management, role-base
 * Maven
 * Render (Deployment)
 
-  [Backend Repository](https://github.com/Jarin0026/auction-frontend)
+  [Frontend Repository](https://github.com/Jarin0026/auction-frontend)
