@@ -58,8 +58,8 @@ The backend handles authentication, bidding logic, auction management, role-base
 * Spring Boot
 * Spring Security
 * JWT Authentication
- * OAuth2 (Google Login)
-* MySQL / TiDB (Cloud Database Deployment)
+* OAuth2 (Google Login)
+* MySQL / TiDB(Cloud Database Deployment)
 * Maven
 * Render (Deployment)
 
